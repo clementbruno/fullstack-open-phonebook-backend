@@ -21,13 +21,6 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello World!</h1>");
 });
 
-app.get("/info", (req, res) => {
-  res.send(`
-    <p>Phonebook has info for ${persons.length} people</p>
-    <p>${new Date()}</p>
-  `);
-});
-
 app.get("/api/persons", (req, res) => {
   Person.find({}).then((persons) => {
     res.json(persons.map((person) => person.toJSON()));
@@ -65,7 +58,7 @@ app.put("/api/persons/:id", (request, response, next) => {
     .catch((err) => next(err));
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
     .then((result) => response.status(204).end())
     .catch((err) => next(err));
